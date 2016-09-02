@@ -2,14 +2,14 @@
 
 module.exports = {
   search: _queryJson
-};
+}
 
 function _queryJson(json, queryRegex) {
   const path = [];
   const result = [];
   _searchOnNode(json, queryRegex, path, result);
   return result;
-};
+}
 
 function _searchOnNode(node, queryRegex, previousPath, result) {
   if (!queryRegex.exec(JSON.stringify(node))) {
@@ -27,7 +27,7 @@ function _searchOnNode(node, queryRegex, previousPath, result) {
   }
 
   _searchOnChildren(node, queryRegex, previousPath, result);
-};
+}
 
 function _processArray(array, queryRegex, previousPath, result) {
   for (let index in array) {
@@ -37,13 +37,17 @@ function _processArray(array, queryRegex, previousPath, result) {
     const node = array[index];
     _searchOnNode(node, queryRegex, currentPath, result);
   }
-};
+}
 
 function _searchOnChildren(json, queryRegex, previousPath, result) {
 
   const keys = Object.keys(json);
 
   for(let index in keys) {
+    if(!keys.hasOwnProperty(index)) {
+      continue;
+    }
+
     const key = keys[index];
 
     const currentPath = previousPath.slice();
@@ -56,10 +60,10 @@ function _searchOnChildren(json, queryRegex, previousPath, result) {
     const nextNode = json[key];
     _searchOnNode(nextNode, queryRegex, currentPath, result);
   }
-};
+}
 
 function _addResult(newValue, result) {
   if (result.indexOf(newValue) < 0) {
     result.push(newValue);
   }
-};
+}
