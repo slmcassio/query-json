@@ -1,0 +1,62 @@
+{
+    "description": "Car",
+    "properties": {
+        "manufacturer": {
+            "type": "string",
+            "required": true
+        },
+        "model": {
+            "type": "string",
+            "required": true
+        },
+        "year": {
+            "type": "integer",
+            "required": true,
+            "min": 2012,
+            "max": 2016
+        },
+        "color": {
+            "type": "string",
+            "required": true,
+            "options": [{
+                "painting": "red",
+                "metallic": true
+              }, {
+                "painting": "white",
+                "metallic": false
+              }, {
+                "painting": "blue",
+                "metallic": true
+              }
+            ]
+        },
+        "features": {
+            "type": "array",
+            "required": true,
+            "minItems": 2,
+            "maxItems": 3,
+            "uniqueItems": false
+        },
+        "engine": {
+            "required": true,
+            "properties": {
+                "cylinders": {
+                    "type": "integer",
+                    "required": "true"
+                },
+                "displacement": {
+                    "type": "integer",
+                    "required": "false"
+                },
+                "horsepower": {
+                    "type": "number",
+                    "required": true
+                },
+                "torque": {
+                    "type": "number",
+                    "required": true
+                }
+            }
+        }
+    }
+}
