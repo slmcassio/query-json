@@ -31,6 +31,10 @@ function _searchOnNode(node, queryRegex, previousPath, result) {
 
 function _processArray(array, queryRegex, previousPath, result) {
   for (let index in array) {
+    if(!array.hasOwnProperty(index)) {
+      continue;
+    }
+
     const currentPath = previousPath.slice();
     currentPath.push(index);
 
