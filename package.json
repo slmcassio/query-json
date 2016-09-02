@@ -16,7 +16,7 @@
     "regex"
   ],
   "author": "Cássio Simões de Lemos Moreira",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/slmcassio/query-json/issues"
   },
