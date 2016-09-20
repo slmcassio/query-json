@@ -14,7 +14,7 @@ $ npm install query-json
 Import ```queryJson``` module:
 
 ```js
-const queryJson = require('../index.js');
+const queryJson = require("query-json");
 ```
 
 Specify both JSON and query regex:
