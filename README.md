@@ -3,7 +3,7 @@ Query-JSON
 
 [![Build Status](https://travis-ci.org/slmcassio/query-json.svg?branch=master)](https://travis-ci.org/slmcassio/query-json)
 
-Search for a given value JSON occurrences.
+Search all occurrences on a given JSON.
 
 ```bash
 $ npm install query-json
