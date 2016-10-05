@@ -14,7 +14,7 @@ describe('Query Json Test', function() {
   });
 
   describe('Query String', function() {
-    it('Existing string should be found', function(done) {
+    it('Simple', function(done) {
 
       const regex = new RegExp('MIN', 'i');
       const result = queryJson.search(json, regex);
@@ -25,10 +25,28 @@ describe('Query Json Test', function() {
 
       done();
     });
+
+    it('Detailed', function(done) {
+
+      const regex = new RegExp('MIN', 'i');
+      const result = queryJson.search(json, regex, {
+        details: true
+      });
+
+      assert.equal(result.length, 2);
+
+      assert.equal(result[0].isKey, true);
+      assert.deepEqual(result[0].path, [ 'properties', 'year', 'min' ]);
+
+      assert.equal(result[1].isKey, true);
+      assert.deepEqual(result[1].path, [ 'properties', 'features', 'minItems' ]);
+
+      done();
+    });
   });
 
   describe('Query boolean', function() {
-    it('Existing boolean should be found', function(done) {
+    it('Simple', function(done) {
 
       const regex = new RegExp('false', 'i');
       const result = queryJson.search(json, regex);
@@ -40,10 +58,31 @@ describe('Query Json Test', function() {
 
       done();
     });
+
+    it('Detailed', function(done) {
+
+      const regex = new RegExp('false', 'i');
+      const result = queryJson.search(json, regex, {
+        details: true
+      });
+
+      assert.equal(result.length, 3);
+
+      assert.equal(result[0].isKey, false);
+      assert.deepEqual(result[0].path, [ 'properties', 'color', 'options', '1', 'metallic' ]);
+
+      assert.equal(result[1].isKey, false);
+      assert.deepEqual(result[1].path, [ 'properties', 'features', 'uniqueItems' ]);
+
+      assert.equal(result[2].isKey, false);
+      assert.deepEqual(result[2].path, [ 'properties', 'engine', 'properties', 'displacement', 'required' ]);
+
+      done();
+    });
   });
 
   describe('Query array', function() {
-    it('Existing array item should be found', function(done) {
+    it('Simple', function(done) {
 
       const regex = new RegExp('blue', 'i');
       const result = queryJson.search(json, regex);
@@ -53,13 +92,40 @@ describe('Query Json Test', function() {
 
       done();
     });
+
+    it('Detailed', function(done) {
+
+      const regex = new RegExp('blue', 'i');
+      const result = queryJson.search(json, regex, {
+        details: true
+      });
+
+      assert.equal(result.length, 1);
+
+      assert.equal(result[0].isKey, false);
+      assert.deepEqual(result[0].path, [ 'properties', 'color', 'options', '2', 'painting' ]);
+
+      done();
+    });
   });
 
   describe('Search unexisting value', function() {
-    it('Unexisting value should not be found', function(done) {
+    it('Simple', function(done) {
 
       const regex = new RegExp('green', 'i');
       const result = queryJson.search(json, regex);
+
+      assert.equal(result.length, 0);
+
+      done();
+    });
+
+    it('Detailed', function(done) {
+
+      const regex = new RegExp('green', 'i');
+      const result = queryJson.search(json, regex, {
+        details: true
+      });
 
       assert.equal(result.length, 0);
 

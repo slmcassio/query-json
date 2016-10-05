@@ -4,32 +4,32 @@ module.exports = {
   search: _queryJson
 }
 
-function _queryJson(json, queryRegex) {
+function _queryJson(json, queryRegex, options = {}) {
   const path = [];
   const result = [];
-  _searchOnNode(json, queryRegex, path, result);
+  _searchOnNode(json, queryRegex, path, result, options);
   return result;
 }
 
-function _searchOnNode(node, queryRegex, previousPath, result) {
+function _searchOnNode(node, queryRegex, previousPath, result, options) {
   if (!queryRegex.exec(JSON.stringify(node))) {
     return;
   }
 
   if (node instanceof Array) {
-    _processArray(node, queryRegex, previousPath, result)
+    _processArray(node, queryRegex, previousPath, result, options)
     return;
   }
 
   if (typeof node === 'number' || typeof node === 'string' || typeof node === 'boolean') {
-    _addResult(previousPath, result);
+    _addResult(previousPath, result, 'VALUE', options);
     return;
   }
 
-  _searchOnChildren(node, queryRegex, previousPath, result);
+  _searchOnChildren(node, queryRegex, previousPath, result, options);
 }
 
-function _processArray(array, queryRegex, previousPath, result) {
+function _processArray(array, queryRegex, previousPath, result, options) {
   for (let index in array) {
     if(!array.hasOwnProperty(index)) {
       continue;
@@ -39,11 +39,11 @@ function _processArray(array, queryRegex, previousPath, result) {
     currentPath.push(index);
 
     const node = array[index];
-    _searchOnNode(node, queryRegex, currentPath, result);
+    _searchOnNode(node, queryRegex, currentPath, result, options);
   }
 }
 
-function _searchOnChildren(json, queryRegex, previousPath, result) {
+function _searchOnChildren(json, queryRegex, previousPath, result, options) {
 
   const keys = Object.keys(json);
 
@@ -58,16 +58,27 @@ function _searchOnChildren(json, queryRegex, previousPath, result) {
     currentPath.push(key);
 
     if (queryRegex.exec(key)) {
-      _addResult(currentPath, result)
+      _addResult(currentPath, result, 'KEY', options);
     }
 
     const nextNode = json[key];
-    _searchOnNode(nextNode, queryRegex, currentPath, result);
+    _searchOnNode(nextNode, queryRegex, currentPath, result, options);
   }
 }
 
-function _addResult(newValue, result) {
-  if (result.indexOf(newValue) < 0) {
-    result.push(newValue);
+function _addResult(newValue, result, type, options) {
+  if (result.indexOf(newValue) >= 0) {
+    return;
   }
+
+  if (options.details) {
+    result.push({
+      isKey: 'KEY' == type,
+      path: newValue
+    });
+
+    return;
+  }
+
+  result.push(newValue);
 }
