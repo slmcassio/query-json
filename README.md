@@ -33,17 +33,30 @@ const json = {
   }
 };
 
-const colorRegex = new RegExp('COLOR', 'i');
-const colorResult = queryJson.search(json, colorRegex);
-console.log(colorResult);
-// [ [ 'key_a', 'color' ],
-//   [ 'key_b', 'color' ],
-//   [ 'key_c', 'color' ] ]
+```
 
-const whiteRegex = new RegExp('WHITE', 'i');
-const whiteResult = queryJson.search(json, whiteRegex);
-console.log(whiteResult);
+Simple query:
+```js
+
+const regex = new RegExp('WHITE', 'i');
+const result = queryJson.search(json, regex);
+
+console.log(result);
 // [ [ 'key_b', 'color' ] ]
+```
+
+Detailed query:
+```js
+
+const regex = new RegExp('COLOR', 'i');
+const result = queryJson.search(json, regex, {
+  details: true
+});
+
+console.log(result);
+// [ { isKey: true, path: [ 'key_a', 'color' ] },
+//   { isKey: true, path: [ 'key_b', 'color' ] },
+//   { isKey: true, path: [ 'key_c', 'color' ] } ]
 ```
 
 ## License
