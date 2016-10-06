@@ -1,6 +1,6 @@
 {
   "name": "query-json",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Search JSON using regex",
   "main": "index.js",
   "scripts": {
