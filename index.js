@@ -4,7 +4,9 @@ module.exports = {
   search: _queryJson
 }
 
-function _queryJson(json, queryRegex, options = {}) {
+function _queryJson(json, queryRegex, options) {
+  options = options ? options : {};
+
   const path = [];
   const result = [];
   _searchOnNode(json, queryRegex, path, result, options);
